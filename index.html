@@ -25,7 +25,7 @@
     .subtitle {
       font-size: 1.05rem;
       text-align: center;
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
       color: #bdc3c7;
     }
     .subtitle a {
@@ -36,10 +36,26 @@
       font-weight: 600;
     }
     .subtitle a:hover { color: #ecf0f1; border-bottom-color: #ecf0f1; }
+    #datetimeContainer {
+      width: 100%; max-width: 720px; margin: 0 auto 2rem auto;
+      text-align: center; padding: 0.8rem; background: rgba(59, 130, 246, 0.1);
+      border-radius: 8px; border: 1px solid #3b82f6; color: #e0e7ff;
+      font-size: 1.1rem; font-weight: 600; font-family: 'Roboto Mono', monospace;
+    }
     #examList {
       width: 100%; max-width: 720px; margin: 0 auto 2rem auto;
       display: grid; grid-template-columns: 1fr; gap: 1.5rem;
     }
+    #clearContainer {
+      width: 100%; max-width: 720px; margin: 1rem auto;
+      text-align: center;
+    }
+    #clearAllBtn {
+      background: #e74c3c; color: #ffffff; border: none; padding: 0.8rem 2rem;
+      border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer;
+      transition: all 0.3s; width: 100%; max-width: 300px;
+    }
+    #clearAllBtn:hover { background: #c0392b; transform: scale(1.02); }
     .subject {
       background: linear-gradient(135deg,#3b82f6 0%,#2563eb 100%);
       border-radius: 12px; padding: 1.8rem; box-shadow: 0 8px 30px rgba(0,0,0,0.35),
@@ -73,6 +89,14 @@
       color: #1e3a5f; font-size: 0.95rem; border-radius: 8px; max-height: 400px;
       overflow-y: auto; display: none; text-align: left; line-height: 1.7;
     }
+    .section-header {
+      font-weight: 700; color: #1e40af; margin: 15px 0 8px 0; padding: 8px 0;
+      border-bottom: 2px solid #e0e7ff; display: flex; justify-content: space-between; align-items: center;
+    }
+    .section-header.complete {
+      text-decoration: line-through; color: #b1b7be; opacity: 0.7;
+    }
+    .section-header.complete::after { content: " ✓ Complete"; font-size: 0.85rem; color: #27ae60; }
     .checkbox-list { list-style: none; padding-left: 0; margin: 8px 0; }
     .checkbox-list li {
       margin: 10px 0; font-size: 1rem; display: flex; align-items: center; gap: 8px;
@@ -98,6 +122,9 @@
       h1{font-size:1.8rem;}.subtitle{font-size:0.95rem;}#examList{gap:1rem;}.subject{padding:1.3rem;}
       .subject h2{font-size:1.3rem;}.countdown{font-size:1.3rem;}.portions{font-size:0.85rem;max-height:250px;}
       .toggle-btn { padding: 0.5rem 1rem; font-size: 0.9rem; }
+      .section-header { font-size: 0.95rem; }
+      #clearAllBtn { padding: 0.7rem 1.5rem; font-size: 0.95rem; }
+      #datetimeContainer { font-size: 1rem; padding: 0.6rem; }
     }
   </style>
 </head>
@@ -106,81 +133,117 @@
   <div class="subtitle">
     According to <a href="https://www.cbse.gov.in/cbsenew/documents/Tentative_DateSheet_24092025.pdf" target="_blank">Tentative Schedule</a> released by CBSE
   </div>
+  <div id="datetimeContainer">
+    <span id="currentDateTime">06-11-2025 23:00</span>
+  </div>
   <div id="examList"></div>
+  <div id="clearContainer">
+    <button id="clearAllBtn">Clear All Progress</button>
+  </div>
   <div id="progressContainer"><div id="progressBar"></div></div>
   <div id="finished">All exams completed! Well done, Champion!</div>
 <script>
+// Nested structure: subjects have sections, each with name and chapters array
 const exams = [
   {
     subject: "Mathematics [041]", date: "2026-02-17",
-    chapters: [
-      "Real Numbers","Polynomials","Pair Of Linear Equations In Two Variables",
-      "Quadratic Equations","Arithmetic Progressions","Triangles","Coordinate Geometry",
-      "Introduction To Trigonometry","Applications Of Trigonometry",
-      "Circles","Constructions","Areas Related To Circles","Surface Areas And Volumes",
-      "Statistics and Probability"
+    sections: [
+      { name: "Chapters", chapters: [
+        "Real Numbers","Polynomials","Pair Of Linear Equations In Two Variables",
+        "Quadratic Equations","Arithmetic Progressions","Triangles","Coordinate Geometry",
+        "Introduction To Trigonometry","Applications Of Trigonometry",
+        "Circles","Constructions","Areas Related To Circles","Surface Areas And Volumes",
+        "Statistics and Probability"
+      ]}
     ]
   },
   {
     subject: "English [184]", date: "2026-02-21",
-    chapters: [
-      "First Flight (Prose): A Letter to God","First Flight (Prose): Nelson Mandela: Long Walk to Freedom",
-      "First Flight (Prose): Two Stories about Flying (His First Flight & Black Aeroplane)",
-      "First Flight (Prose): From the Diary of Anne Frank","First Flight (Prose): The Hundred Dresses – I",
-      "First Flight (Prose): The Hundred Dresses – II", "First Flight (Prose): Glimpses of India (A Baker from Goa, Coorg, Tea from Assam)",
-      "First Flight (Prose): Mijbil the Otter","First Flight (Prose): Madam Rides the Bus",
-      "First Flight (Prose): The Sermon at Benares","First Flight (Prose): The Proposal",
-      "First Flight (Poetry): Dust of Snow","First Flight (Poetry): Fire and Ice",
-      "First Flight (Poetry): A Tiger in the Zoo","First Flight (Poetry): How to Tell Wild Animals",
-      "First Flight (Poetry): The Ball Poem","First Flight (Poetry): Amanda!","First Flight (Poetry): The Trees",
-      "First Flight (Poetry): Fog","First Flight (Poetry): The Tale of Custard the Dragon","First Flight (Poetry): For Anne Gregory",
-      "Footprints without Feet: A Triumph of Surgery","Footprints without Feet: The Thief's Story","Footprints without Feet: The Midnight Visitor",
-      "Footprints without Feet: A Question of Trust","Footprints without Feet: Footprints without Feet",
-      "Footprints without Feet: The Making of a Scientist","Footprints without Feet: The Necklace",
-      "Footprints without Feet: The Hack Driver","Footprints without Feet: Bholi","Footprints without Feet: The Book that Saved the Earth"
+    sections: [
+      { name: "First Flight (Prose)", chapters: [
+        "A Letter to God","Nelson Mandela: Long Walk to Freedom",
+        "Two Stories about Flying (His First Flight & Black Aeroplane)",
+        "From the Diary of Anne Frank","The Hundred Dresses – I",
+        "The Hundred Dresses – II","Glimpses of India (A Baker from Goa, Coorg, Tea from Assam)",
+        "Mijbil the Otter","Madam Rides the Bus",
+        "The Sermon at Benares","The Proposal (Play)"
+      ]},
+      { name: "First Flight (Poetry)", chapters: [
+        "Dust of Snow","Fire and Ice",
+        "A Tiger in the Zoo","How to Tell Wild Animals",
+        "The Ball Poem","Amanda!","The Trees",
+        "Fog","The Tale of Custard the Dragon","For Anne Gregory"
+      ]},
+      { name: "Footprints without Feet (Supplementary Reader)", chapters: [
+        "A Triumph of Surgery","The Thief's Story","The Midnight Visitor",
+        "A Question of Trust","Footprints without Feet",
+        "The Making of a Scientist","The Necklace",
+        "The Hack Driver","Bholi","The Book that Saved the Earth"
+      ]}
     ]
   },
   {
     subject: "Science [086]", date: "2026-02-25",
-    chapters: [
-      "Chemical Reactions and Equations", "Acids, Bases, and Salts", "Metals and Non-metals",
-      "Carbon and its Compounds", "Periodic Classification of Elements","Life Processes",
-      "Control and Coordination","How do Organisms Reproduce","Heredity and Evolution",
-      "Light — Reflection and Refraction","The Human Eye and the Colourful World","Electricity",
-      "Magnetic Effects of Electric Current","Sources of Energy","Our Environment","Management of Natural Resources"
+    sections: [
+      { name: "Chapters", chapters: [
+        "Chemical Reactions and Equations", "Acids, Bases, and Salts", "Metals and Non-metals",
+        "Carbon and its Compounds", "Periodic Classification of Elements","Life Processes",
+        "Control and Coordination","How do Organisms Reproduce","Heredity and Evolution",
+        "Light — Reflection and Refraction","The Human Eye and the Colourful World","Electricity",
+        "Magnetic Effects of Electric Current","Sources of Energy","Our Environment","Management of Natural Resources"
+      ]}
     ]
   },
   {
     subject: "Artificial Intelligence [417]", date: "2026-02-27",
-    chapters: [
-      "Employability Skills","AI Project Cycle","AI Domains","Ethics in AI",
-      "Modeling & Data Analysis","Computer Vision","Natural Language Processing","Python for AI"
+    sections: [
+      { name: "Units", chapters: [
+        "Employability Skills","AI Project Cycle","AI Domains","Ethics in AI",
+        "Modeling & Data Analysis","Computer Vision","Natural Language Processing","Python for AI"
+      ]}
     ]
   },
   {
     subject: "Sanskrit [119]", date: "2026-02-28",
-    chapters: [
-      "संवादः","सुभाषितानि","धर्मक्षेत्रे कुरुक्षेत्रे","मेघः अयम्","सौदामिनी",
-      "व्रजन्तु सुतराम् रम्याणि","अपेक्षा","हिमालयः","विशिष्ट: पथः","शिवा-संकल्प",
-      "संधि","समास","प्रत्यय","वाच्यप्रकरण","शब्दरूपाणि","धातुरूपाणि","अव्ययपदानि","अशुद्धि संशोधन",
-      "पत्र लेखन (Letter Writing)","चित्रवर्णन (Picture Description)","संवाद लेखन (Dialogue Writing)","अनुवाद (Translation)"
+    sections: [
+      { name: "साहित्यम्: मणिका (Literature)", chapters: [
+        "संवादः","सुभाषितानि","धर्मक्षेत्रे कुरुक्षेत्रे","मेघः अयम्","सौदामिनी",
+        "व्रजन्तु सुतराम् रम्याणि","अपेक्षा","हिमालयः","विशिष्ट: पथः","शिवा-संकल्प"
+      ]},
+      { name: "व्याकरण (Grammar)", chapters: [
+        "संधि","समास","प्रत्यय","वाच्यप्रकरण","शब्दरूपाणि","धातुरूपाणि","अव्ययपदानि","अशुद्धि संशोधन"
+      ]},
+      { name: "रचनात्मक कार्य (Composition)", chapters: [
+        "पत्र लेखन (Letter Writing)","चित्रवर्णन (Picture Description)","संवाद लेखन (Dialogue Writing)","अनुवाद (Translation)"
+      ]}
     ]
   },
   {
     subject: "Social Science [087]", date: "2026-03-07",
-    chapters: [
-      "History: The Rise of Nationalism in Europe","History: Nationalism in India","History: The Making of a Global World",
-      "History: The Age of Industrialisation","History: Print Culture and the Modern World",
-      "Geography: Resources and Development","Geography: Forest and Wildlife Resources","Geography: Water Resources",
-      "Geography: Agriculture","Geography: Minerals and Energy Resources","Geography: Manufacturing Industries",
-      "Geography: Lifelines of National Economy","Political Science: Power Sharing","Political Science: Federalism",
-      "Political Science: Gender, Religion and Caste","Political Science: Political Parties","Political Science: Outcomes of Democracy",
-      "Economics: Development","Economics: Sectors of the Indian Economy","Economics: Money and Credit",
-      "Economics: Globalisation and the Indian Economy","Economics: Consumer Rights"
+    sections: [
+      { name: "History", chapters: [
+        "The Rise of Nationalism in Europe","Nationalism in India","The Making of a Global World",
+        "The Age of Industrialisation","Print Culture and the Modern World"
+      ]},
+      { name: "Geography", chapters: [
+        "Resources and Development","Forest and Wildlife Resources","Water Resources",
+        "Agriculture","Minerals and Energy Resources","Manufacturing Industries",
+        "Lifelines of National Economy"
+      ]},
+      { name: "Political Science", chapters: [
+        "Power Sharing","Federalism",
+        "Gender, Religion and Caste","Political Parties","Outcomes of Democracy"
+      ]},
+      { name: "Economics", chapters: [
+        "Development","Sectors of the Indian Economy","Money and Credit",
+        "Globalisation and the Indian Economy","Consumer Rights"
+      ]}
     ]
   }
 ];
+
 const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
 function getDateStr(dateStr) {
   const d = new Date(dateStr + "T10:30:00");
   const day = d.getDate();
@@ -192,31 +255,70 @@ function getDateStr(dateStr) {
   else if (day === 3 || day === 23) suffix = "rd";
   return `${day}${suffix} ${month} ${year}`;
 }
+
 function formatTimediff(diff) {
   const days = Math.floor(diff/(1000*60*60*24));
   const hours = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
   const minutes = Math.floor((diff%(1000*60*60))/(1000*60));
   return {days, hours, minutes};
 }
-function getStorageKey(subject, i) {
-  return `boards_ch_${subject.replace(/[^a-zA-Z0-9]/g,"_")}_${i}`;
+
+function getStorageKey(subject, sectionIndex, chapterIndex) {
+  return `boards_ch_${subject.replace(/[^a-zA-Z0-9]/g,"_")}_sec${sectionIndex}_ch${chapterIndex}`;
 }
-function renderCheckboxes(subject, chapters) {
-  let html = `<ul class="checkbox-list">`;
-  chapters.forEach((ch,i) => {
-    const key = getStorageKey(subject,i);
-    const checked = localStorage.getItem(key)==="1" ? "checked" : "";
-    html += `<li>
-      <input type="checkbox" id="${key}" ${checked}>
-      <label for="${key}" style="cursor:pointer">${ch}</label>
-    </li>`;
+
+function isSectionComplete(subject, sectionIndex, sectionChapters) {
+  return sectionChapters.every((_, i) => localStorage.getItem(getStorageKey(subject, sectionIndex, i)) === "1");
+}
+
+function renderSections(subject, sections) {
+  let html = '';
+  sections.forEach((section, secIdx) => {
+    const complete = isSectionComplete(subject, secIdx, section.chapters);
+    html += `<div class="section-header ${complete ? 'complete' : ''}">${section.name}</div>`;
+    html += `<ul class="checkbox-list">`;
+    section.chapters.forEach((ch, chIdx) => {
+      const key = getStorageKey(subject, secIdx, chIdx);
+      const checked = localStorage.getItem(key) === "1" ? "checked" : "";
+      html += `<li>
+        <input type="checkbox" id="${key}" ${checked}>
+        <label for="${key}" style="cursor:pointer">${ch}</label>
+      </li>`;
+    });
+    html += `</ul>`;
   });
-  html += `</ul>`;
   return html;
 }
+
+function clearAllTicks() {
+  if (!confirm("Are you sure you want to clear all progress? This cannot be undone.")) return;
+  exams.forEach(exam => {
+    exam.sections.forEach((section, secIdx) => {
+      section.chapters.forEach((_, chIdx) => {
+        const key = getStorageKey(exam.subject, secIdx, chIdx);
+        localStorage.removeItem(key);
+      });
+    });
+  });
+  updateCountdown(); // Refresh the UI
+}
+
+function updateDateTime() {
+  const now = new Date();
+  const day = now.getDate().toString().padStart(2, '0');
+  const month = (now.getMonth() + 1).toString().padStart(2, '0');
+  const year = now.getFullYear();
+  const hours = now.getHours().toString().padStart(2, '0');
+  const minutes = now.getMinutes().toString().padStart(2, '0');
+  document.getElementById("currentDateTime").textContent = `${day}-${month}-${year} ${hours}:${minutes}`;
+}
+
 const container = document.getElementById("examList");
 const progressBar = document.getElementById("progressBar");
 const finishedText = document.getElementById("finished");
+const clearBtn = document.getElementById("clearAllBtn");
+clearBtn.addEventListener("click", clearAllTicks);
+
 function updateCountdown() {
   container.innerHTML = "";
   const now = new Date();
@@ -260,38 +362,48 @@ function updateCountdown() {
     const toggleBtn = document.createElement("button");
     toggleBtn.className = "toggle-btn";
     toggleBtn.textContent = "View Chapters";
+    let isOpen = false;
     toggleBtn.onclick = function(e) {
       e.stopPropagation();
       const portions = div.querySelector(".portions");
-      const isOpen = portions.classList.contains("open");
+      isOpen = !isOpen;
       if (isOpen) {
-        portions.classList.remove("open");
-        toggleBtn.textContent = "View Chapters";
-        toggleBtn.classList.remove("open");
-      } else {
         portions.classList.add("open");
         toggleBtn.textContent = "Hide Chapters";
         toggleBtn.classList.add("open");
+      } else {
+        portions.classList.remove("open");
+        toggleBtn.textContent = "View Chapters";
+        toggleBtn.classList.remove("open");
       }
     };
     div.appendChild(toggleBtn);
 
-    // Tickable list area
+    // Sections with nested chapters
     const portionDiv = document.createElement("div");
     portionDiv.className = "portions";
-    portionDiv.innerHTML = `<b>Chapters/Topics:</b>` + renderCheckboxes(exam.subject,exam.chapters);
+    portionDiv.innerHTML = `<b>Chapters/Topics:</b>` + renderSections(exam.subject, exam.sections);
 
-    // Checkbox logic: save progress on checking
-    setTimeout(()=>{
-      exam.chapters.forEach((_ch,i)=>{
-        const key = getStorageKey(exam.subject,i);
-        const box = document.getElementById(key);
-        if (!box) return;
-        box.addEventListener("change",function(){
-          localStorage.setItem(key, box.checked ? "1" : "");
+    // Checkbox logic: save on change, update section visuals
+    setTimeout(() => {
+      function attachListeners(examDiv, exam) {
+        exam.sections.forEach((section, secIdx) => {
+          section.chapters.forEach((_, chIdx) => {
+            const key = getStorageKey(exam.subject, secIdx, chIdx);
+            const box = examDiv.querySelector(`#${key}`);
+            if (!box) return;
+            box.addEventListener("change", function() {
+              localStorage.setItem(key, box.checked ? "1" : "");
+              // Re-render the portions
+              portionDiv.innerHTML = `<b>Chapters/Topics:</b>` + renderSections(exam.subject, exam.sections);
+              // Re-attach listeners
+              setTimeout(() => attachListeners(examDiv, exam), 10);
+            });
+          });
         });
-      });
-    },0);
+      }
+      attachListeners(div, exam);
+    }, 0);
 
     div.appendChild(portionDiv);
     container.appendChild(div);
@@ -299,8 +411,13 @@ function updateCountdown() {
   progressBar.style.width = `${completed/exams.length*100}%`;
   finishedText.style.display = (completed === exams.length) ? "block" : "none";
 }
+
+updateDateTime();
 updateCountdown();
-setInterval(updateCountdown, 60000); // every minute for efficiency
+setInterval(() => {
+  updateDateTime();
+  updateCountdown();
+}, 60000); // every minute
 </script>
 </body>
 </html>
