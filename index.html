@@ -5,173 +5,242 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Class X Boards 2026</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
     body {
-      background: linear-gradient(135deg, #3d4e7a 0%, #4a3f7a 25%, #7a3f6a 50%, #2a5a8a 75%, #1a6a9a 100%);
-      background-attachment: fixed;
-      color: #fff;
-      font-family: 'Roboto Mono', monospace;
+      background: linear-gradient(180deg, #f5f7fa 0%, #e8ecf1 100%);
+      color: #2c3e50;
+      font-family: 'Poppins', sans-serif;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       padding: 2rem 1rem;
     }
+    
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    
     h1 {
-      font-size: 2.2rem;
-      text-shadow: 0 0 10px rgba(0,0,0,0.3);
+      font-size: 2rem;
+      color: #1a3a52;
       margin-bottom: 0.5rem;
       text-align: center;
-      letter-spacing: 1px;
+      font-weight: 700;
     }
+    
     .subtitle {
-      font-size: 0.9rem;
-      color: #e0e0e0;
-      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+      color: #5a6c7d;
+      margin-bottom: 2rem;
       text-align: center;
+      line-height: 1.5;
     }
+    
     .subtitle a {
-      color: #ffeb3b;
+      color: #2980b9;
       text-decoration: none;
-      border-bottom: 2px solid #ffeb3b;
+      font-weight: 600;
+      border-bottom: 2px solid #2980b9;
       transition: all 0.3s ease;
     }
+    
     .subtitle a:hover {
-      color: #fff;
-      text-decoration: underline;
+      color: #1a5fa0;
+      border-bottom-color: #1a5fa0;
     }
+    
     #examList {
-      width: 100%;
-      max-width: 600px;
       display: flex;
       flex-direction: column;
-      gap: 1.1rem;
+      gap: 1rem;
+      margin-bottom: 2rem;
     }
+    
     .subject {
-      background: rgba(255,255,255,0.08);
-      backdrop-filter: blur(10px);
-      border-radius: 16px;
-      padding: 20px 25px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
       cursor: pointer;
-      position: relative;
       transition: all 0.3s ease;
-      overflow: hidden;
-      text-align: center;
-      border: 1px solid rgba(255,255,255,0.15);
+      border-left: 5px solid #2980b9;
     }
+    
     .subject:hover {
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
       transform: translateY(-2px);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.25);
     }
+    
     .subject.highlight {
-      border: 2px solid #00f2fe;
-      box-shadow: 0 0 20px rgba(0,242,254,0.6), inset 0 0 20px rgba(0,242,254,0.2);
-      background: rgba(0,242,254,0.12);
-      transform: scale(1.05);
-      z-index: 3;
+      border-left-color: #27ae60;
+      background: #f0f8f4;
+      box-shadow: 0 4px 16px rgba(39, 174, 96, 0.2);
     }
+    
     .subject h2 {
-      margin: 0 0 0.3em 0;
       font-size: 1.3rem;
+      color: #1a3a52;
+      margin-bottom: 0.3rem;
       font-weight: 700;
     }
+    
     .exam-date {
-      font-size: 1.05rem;
-      color: #fff;
-      margin-bottom: 0.3em;
+      font-size: 0.95rem;
+      color: #7f8c8d;
+      margin-bottom: 0.5rem;
       font-weight: 500;
     }
+    
     .countdown {
       font-size: 1rem;
-      color: #b3e5fc;
-      font-weight: 500;
-      margin: 0.2em 0;
+      color: #2980b9;
+      font-weight: 600;
+      margin: 0.3rem 0;
     }
+    
     .message {
-      font-size: 1.05rem;
-      margin-top: 0.5em;
-      color: #ffd700;
+      font-size: 1rem;
+      margin-top: 0.5rem;
+      color: #27ae60;
       font-weight: 700;
-      text-shadow: 0 0 8px rgba(255,215,0,0.5);
     }
+    
     .portions {
-      margin-top: 15px;
-      padding: 15px 12px 0 12px;
-      background: rgba(0,0,0,0.25);
-      border-left: 4px solid #00f2fe;
-      color: #f0f0f0;
-      font-size: 0.95rem;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #f8fafb;
+      border-left: 4px solid #2980b9;
       border-radius: 8px;
-      max-height: 380px;
+      max-height: 400px;
       overflow-y: auto;
       display: none;
       text-align: left;
     }
+    
+    .portions b {
+      color: #1a3a52;
+      font-weight: 700;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    
     .portions ul {
-      margin: 8px 0;
-      padding-left: 20px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
     }
+    
     .portions li {
-      margin: 8px 0;
-      line-height: 1.6;
+      color: #2c3e50;
+      margin: 0.6rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+      font-size: 0.95rem;
+      line-height: 1.5;
     }
+    
+    .portions li:before {
+      content: "•";
+      color: #2980b9;
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+    }
+    
     .subject.open .portions {
       display: block;
     }
+    
     #progressContainer {
-      margin-top: 2.5rem;
-      width: 100%;
-      max-width: 600px;
-      background: rgba(255,255,255,0.12);
-      border-radius: 20px;
-      height: 32px;
+      margin-top: 2rem;
+      background: #ffffff;
+      border-radius: 12px;
+      height: 12px;
       overflow: hidden;
-      position: relative;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.15);
-      border: 1px solid rgba(255,255,255,0.15);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     }
+    
     #progressBar {
       height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, #00f2fe, #4facfe, #667eea);
-      animation: shimmer 2s infinite;
-      border-radius: 20px 0 0 20px;
-      box-shadow: 0 0 15px rgba(0,242,254,0.8);
+      background: linear-gradient(90deg, #2980b9, #3498db);
       transition: width 0.8s ease;
+      border-radius: 12px;
     }
-    @keyframes shimmer {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.8; }
-    }
+    
     #finished {
-      margin-top: 3rem;
-      font-size: 1.8rem;
-      color: #ffd700;
-      text-shadow: 0 0 20px rgba(255,215,0,0.6);
+      margin-top: 2rem;
+      font-size: 1.5rem;
+      color: #27ae60;
+      text-align: center;
       display: none;
-      font-weight: 800;
-      letter-spacing: 1px;
+      font-weight: 700;
+    }
+    
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+      .subject {
+        padding: 1.2rem;
+      }
+      .portions {
+        max-height: 300px;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>Class X Boards 2026</h1>
-  <div class="subtitle">According To <a href="https://www.cbse.gov.in/cbsenew/documents/Tentative_DateSheet_24092025.pdf" target="_blank">Tentative Schedule</a> Released by CBSE</div>
-  <div id="examList"></div>
-  <div id="progressContainer"><div id="progressBar"></div></div>
-  <div id="finished">All exams completed! Well done, Champion!</div>
+  <div class="container">
+    <h1>Class X Boards 2026</h1>
+    <div class="subtitle">According To <a href="https://www.cbse.gov.in/cbsenew/documents/Tentative_DateSheet_24092025.pdf" target="_blank">Tentative Schedule</a> Released by CBSE</div>
+    <div id="examList"></div>
+    <div id="progressContainer"><div id="progressBar"></div></div>
+    <div id="finished">All exams completed! Well done, Champion!</div>
+  </div>
+
   <script>
     const exams = [
-      { subject: "Mathematics [041]", date: "2026-02-17", portions: "<b>Portions:</b><ul><li>Real Numbers</li><li>Polynomials</li><li>Pair Of Linear Equations</li><li>Quatratic Equations</li><li>Coordinate Geometry</li><li>Triangles</li><li>Circles</li><li>Areas Related To Circles</li><li>Intro to Trigonometry</li><li>Applications of Trigonometry</li><li>Arithmetic Progression</li><li>Surface Areas & Volumes</li><li>Statistics</li><li>Probability</li></ul>" },
-      { subject: "English [184]", date: "2026-02-21", portions: "<b>Sections:</b><ul><li>Reading: Unseen passages</li><li>Writing & Grammar: Letter, Paragraph, Grammar Topics</li><li>Literature: Textbook chapters, poems, extracts</li><li>Supplementary: Stories, extracts, long answers</li></ul>" },
-      { subject: "Science [086]", date: "2026-02-25", portions: "<b>Portions:</b><ul><li>Chemical Substances: Chemical Reactions</li><li>Acids & Bases</li><li>Metals & Non-metals</li><li>Carbon and its Compounds</li><li>World of Living: Life Processes</li><li>Control & Coordination</li><li>Reproduction</li><li>Heredity</li><li>Environment</li><li>Natural Phenomena: Light (Reflection & Refraction)</li><li>Human Eye</li><li>Electricity</li><li>Magnetic Effect</li></ul>" },
-      { subject: "Artificial Intelligence [417]", date: "2026-02-27", portions: "<b>Units:</b><ul><li>Employability Skills</li><li>AI Project Cycle</li><li>AI Domains</li><li>Ethics in AI</li><li>Modeling</li><li>Data Analysis</li><li>Computer Vision</li><li>Natural Language Processing</li><li>Python</li></ul>" },
-      { subject: "Sanskrit [119]", date: "2026-02-28", portions: "<b>पुस्तकें एवं विषय:</b><ul><li>मणिका: सभी पाठ</li><li>व्याकरण: संधि</li><li>समास</li><li>उपसर्ग</li><li>प्रत्यय आदि</li><li>संवाद लेखन</li><li>पत्र लेखन</li><li>अनुच्छेद लेखन</li></ul>" },
-      { subject: "Social Science [087]", date: "2026-03-07", portions: "<b>Units:</b><ul><li>History</li><li>Geography</li><li>Political Science</li><li>Economics</li><li>Practical Components</li></ul>" },
+      { 
+        subject: "Mathematics [041]", 
+        date: "2026-02-17", 
+        portions: "<b>Chapters:</b><ul><li>Real Numbers</li><li>Polynomials</li><li>Pair of Linear Equations in Two Variables</li><li>Quadratic Equations</li><li>Arithmetic Progressions</li><li>Triangles</li><li>Coordinate Geometry</li><li>Introduction to Trigonometry</li><li>Some Applications of Trigonometry</li><li>Circles</li><li>Constructions</li><li>Areas Related to Circles</li><li>Surface Areas and Volumes</li><li>Statistics</li><li>Probability</li></ul>" 
+      },
+      { 
+        subject: "English [184]", 
+        date: "2026-02-21", 
+        portions: "<b>Sections:</b><ul><li>Reading: Unseen passages</li><li>Writing & Grammar: Letter, Paragraph, Grammar Topics</li><li>Literature: Textbook chapters, poems, extracts</li><li>Supplementary: Stories, extracts, long answers</li></ul>" 
+      },
+      { 
+        subject: "Science [086]", 
+        date: "2026-02-25", 
+        portions: "<b>Chapters:</b><ul><li>Chemical Reactions and Equations</li><li>Acids, Bases and Salts</li><li>Metals and Non-metals</li><li>Carbon and its Compounds</li><li>Life Processes</li><li>Control and Coordination</li><li>How do Organisms Reproduce</li><li>Heredity and Evolution</li><li>Our Environment</li><li>Light - Reflection and Refraction</li><li>The Human Eye and Colourful World</li><li>Electricity</li><li>Magnetic Effects of Electric Current</li></ul>" 
+      },
+      { 
+        subject: "Artificial Intelligence [417]", 
+        date: "2026-02-27", 
+        portions: "<b>Units:</b><ul><li>Employability Skills</li><li>AI Project Cycle</li><li>AI Domains</li><li>Ethics in AI</li><li>Modeling in AI</li><li>Data and Statistics</li><li>Computer Vision</li><li>Natural Language Processing</li><li>Python for AI</li></ul>" 
+      },
+      { 
+        subject: "Sanskrit [119]", 
+        date: "2026-02-28", 
+        portions: "<b>विषय:</b><ul><li>मणिका: सभी पाठ और काव्यांश</li><li>संधि (स्वर और व्यंजन)</li><li>समास (सभी प्रकार)</li><li>उपसर्ग और प्रत्यय</li><li>वाक्य रूपांतरण</li><li>संवाद लेखन</li><li>पत्र लेखन</li><li>अनुच्छेद लेखन</li></ul>" 
+      },
+      { 
+        subject: "Social Science [087]", 
+        date: "2026-03-07", 
+        portions: "<b>Sections:</b><ul><li>History: Nationalism, Globalisation</li><li>Geography: Resources, Agriculture, Industries</li><li>Political Science: Democracy, Rights, Constitution</li><li>Economics: Development, Money, Globalisation</li></ul>" 
+      }
     ];
+
     const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
     function getDateStr(dateStr) {
       const d = new Date(dateStr + 'T10:30:00');
       let dd = d.getDate(), mm = months[d.getMonth()], yy = d.getFullYear();
@@ -181,6 +250,7 @@
       else if (dd === 3 || dd === 23) suf = 'rd';
       return `${dd}${suf} ${mm} ${yy}`;
     }
+
     function formatTime(diff) {
       return {
         days: Math.floor(diff / (1000*60*60*24)),
@@ -188,35 +258,46 @@
         minutes: Math.floor((diff % (1000*60*60)) / (1000*60))
       };
     }
+
     const container = document.getElementById('examList');
     const progressBar = document.getElementById('progressBar');
     const finishedText = document.getElementById('finished');
+
     function updateCountdown() {
       container.innerHTML = '';
       const now = new Date();
       let completed = 0;
+
       const active = exams.filter(exam => now <= new Date(`${exam.date}T13:30:00`));
       completed = exams.length - active.length;
+
       active.forEach(exam => {
         const start = new Date(`${exam.date}T10:30:00`);
         const end = new Date(`${exam.date}T13:30:00`);
         const dayBefore = new Date(start.getTime() - 24*60*60*1000);
+
         const div = document.createElement('div');
         div.classList.add('subject');
+
         if (now >= dayBefore && now < start) {
           div.classList.add('highlight');
         }
+
         const title = document.createElement('h2');
         title.textContent = exam.subject;
         div.appendChild(title);
+
         const dateDiv = document.createElement('div');
         dateDiv.className = 'exam-date';
         dateDiv.textContent = getDateStr(exam.date);
         div.appendChild(dateDiv);
+
         const countdownP = document.createElement('div');
         countdownP.className = 'countdown';
+
         const messageP = document.createElement('div');
         messageP.className = 'message';
+
         if (now >= dayBefore && now < start) {
           const subjectName = exam.subject.split('[')[0].trim();
           messageP.textContent = `All the best for ${subjectName}!`;
@@ -226,22 +307,28 @@
         } else if (now >= start && now <= end) {
           countdownP.textContent = 'Exam in progress...';
         }
+
         div.appendChild(countdownP);
         div.appendChild(messageP);
+
         const portionDiv = document.createElement('div');
         portionDiv.className = 'portions';
         portionDiv.innerHTML = exam.portions;
         div.appendChild(portionDiv);
+
         div.addEventListener('click', function(e){
           e.stopPropagation();
           document.querySelectorAll('.subject').forEach(subj => subj !== div && subj.classList.remove('open'));
           div.classList.toggle('open');
         });
+
         container.appendChild(div);
       });
+
       progressBar.style.width = (completed / exams.length) * 100 + '%';
       finishedText.style.display = completed === exams.length ? 'block' : 'none';
     }
+
     updateCountdown();
     setInterval(updateCountdown, 60000);
   </script>
