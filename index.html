@@ -12,10 +12,10 @@
       padding: 0;
     }
     body {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #ecf0f1 0%, #bdc3c7 50%, #95a5a6 100%);
       min-height: 100vh;
       font-family: 'Inter', sans-serif;
-      color: #fff;
+      color: #2c3e50;
       padding: 2rem 1rem 4rem 1rem;
     }
     h1 {
@@ -24,99 +24,103 @@
       text-align: center;
       margin-bottom: 0.5rem;
       letter-spacing: 1px;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      color: #1a5276;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
     .subtitle {
       font-size: 1.05rem;
       text-align: center;
       margin-bottom: 2rem;
-      color: #f0f0f0;
+      color: #2c3e50;
     }
     .subtitle a {
-      color: #ffd700;
+      color: #1a5276;
       text-decoration: none;
-      border-bottom: 2px solid #ffd700;
+      border-bottom: 2px solid #1a5276;
       transition: all 0.3s;
+      font-weight: 600;
     }
     .subtitle a:hover {
-      color: #fff;
-      border-bottom-color: #fff;
+      color: #0d47a1;
+      border-bottom-color: #0d47a1;
     }
     #examList {
       width: 100%;
-      max-width: 700px;
+      max-width: 720px;
       margin: 0 auto 2rem auto;
-      display: flex;
-      flex-direction: column;
-      gap: 1.3rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
     }
     .subject {
-      background: rgba(255,255,255,0.15);
-      backdrop-filter: blur(10px);
-      border-radius: 16px;
-      padding: 1.5rem;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      background: linear-gradient(135deg, #ffffff 0%, #f5f7fa 100%);
+      border-radius: 12px;
+      padding: 1.8rem;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
       cursor: pointer;
       transition: all 0.3s;
-      border: 1px solid rgba(255,255,255,0.2);
+      border: 2px solid #d1d5db;
     }
     .subject:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.3);
-      background: rgba(255,255,255,0.2);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.18);
+      border-color: #3498db;
+      background: linear-gradient(135deg, #f0f9ff 0%, #f5f7fa 100%);
     }
     .subject.highlight {
-      border: 2px solid #ffd700;
-      box-shadow: 0 0 20px rgba(255,215,0,0.5);
-      background: rgba(255,215,0,0.15);
+      border: 3px solid #e74c3c;
+      box-shadow: 0 0 25px rgba(231,76,60,0.3);
+      background: linear-gradient(135deg, #fadbd8 0%, #f5f7fa 100%);
     }
     .subject h2 {
-      margin: 0 0 0.5rem 0;
-      font-size: 1.5rem;
+      margin: 0 0 0.8rem 0;
+      font-size: 1.6rem;
       font-weight: 700;
-      color: #fff;
+      color: #1a5276;
     }
     .exam-date {
       font-size: 1.1rem;
-      color: #ffd700;
-      margin-bottom: 0.5rem;
+      color: #0d47a1;
+      margin-bottom: 0.6rem;
       font-weight: 600;
     }
     .countdown {
-      font-size: 1rem;
-      color: #b3e5fc;
-      font-weight: 500;
+      font-size: 1.1rem;
+      color: #c0392b;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
     }
     .message {
-      font-size: 1.1rem;
-      margin-top: 0.5rem;
-      color: #ffd700;
+      font-size: 1.15rem;
+      margin-top: 0.6rem;
+      color: #27ae60;
       font-weight: 700;
-      text-shadow: 0 0 8px rgba(255,215,0,0.5);
     }
     .portions {
-      margin-top: 1rem;
-      padding: 1rem;
-      background: rgba(0,0,0,0.3);
-      border-left: 4px solid #ffd700;
-      color: #f0f0f0;
+      margin-top: 1.2rem;
+      padding: 1.2rem;
+      background: #f8f9fa;
+      border-left: 5px solid #3498db;
+      color: #2c3e50;
       font-size: 0.95rem;
       border-radius: 8px;
       max-height: 400px;
       overflow-y: auto;
       display: none;
       text-align: left;
-      line-height: 1.6;
+      line-height: 1.7;
     }
     .portions ul {
-      margin: 8px 0;
-      padding-left: 20px;
+      margin: 10px 0;
+      padding-left: 22px;
     }
     .portions li {
       margin: 6px 0;
+      color: #34495e;
     }
     .portions b {
-      color: #ffd700;
+      color: #1a5276;
+      font-weight: 700;
     }
     .subject.open .portions {
       display: block;
@@ -129,31 +133,32 @@
     #progressContainer {
       margin: 2.5rem auto 0 auto;
       width: 100%;
-      max-width: 700px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 20px;
-      height: 32px;
+      max-width: 720px;
+      background: #ecf0f1;
+      border-radius: 12px;
+      height: 36px;
       overflow: hidden;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      border: 2px solid #d1d5db;
     }
     #progressBar {
       height: 100%;
       width: 0;
-      background: linear-gradient(90deg,#00f2fe,#4facfe,#667eea);
-      border-radius: 20px;
-      box-shadow: 0 0 15px rgba(0,242,254,0.6);
+      background: linear-gradient(90deg, #3498db 0%, #2980b9 50%, #1a5276 100%);
+      border-radius: 12px;
+      box-shadow: inset 0 -2px 8px rgba(0,0,0,0.1);
       transition: width 0.8s ease;
       animation: shimmer 2s infinite;
     }
     @keyframes shimmer {
       0%,100% {opacity:1;}
-      50% {opacity:0.8;}
+      50% {opacity:0.85;}
     }
     #finished {
       margin-top: 3rem;
       font-size: 2rem;
-      color: #ffd700;
-      text-shadow: 0 0 20px rgba(255,215,0,0.6);
+      color: #27ae60;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.1);
       display: none;
       font-weight: 800;
       text-align: center;
@@ -161,8 +166,9 @@
     @media (max-width: 600px) {
       h1 {font-size: 1.8rem;}
       .subtitle {font-size: 0.95rem;}
-      .subject {padding: 1rem;}
-      .subject h2 {font-size: 1.2rem;}
+      #examList {gap: 1rem;}
+      .subject {padding: 1.3rem;}
+      .subject h2 {font-size: 1.3rem;}
       .portions {font-size: 0.85rem; max-height: 250px;}
     }
   </style>
