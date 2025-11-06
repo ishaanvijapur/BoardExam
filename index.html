@@ -46,6 +46,21 @@
       width: 100%; max-width: 720px; margin: 0 auto 2rem auto;
       display: grid; grid-template-columns: 1fr; gap: 1.5rem;
     }
+    .progress-label {
+      text-align: center; font-size: 1.1rem; font-weight: 600; color: #bdc3c7;
+      margin-bottom: 0.5rem;
+    }
+    #preparationContainer, #boardContainer {
+      width: 100%; max-width: 720px; margin: 2.5rem auto 0 auto;
+      background: #ecf0f1; border-radius: 12px; height: 36px; overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2); border: 2px solid #d1d5db;
+    }
+    #preparationBar, #boardProgressBar {
+      height: 100%; width: 0; background: linear-gradient(90deg, #3498db 0%, #2980b9 50%, #1a5276 100%);
+      border-radius: 12px; box-shadow: inset 0 -2px 8px rgba(0,0,0,0.1); transition: width 0.8s ease;
+      animation: shimmer 2s infinite;
+    }
+    @keyframes shimmer {0%,100%{opacity:1;}50%{opacity:0.85;}}
     #clearContainer {
       width: 100%; max-width: 720px; margin: 1rem auto;
       text-align: center;
@@ -140,12 +155,6 @@
     .portions b { color: #1e40af; font-weight: 700; }
     .portions.open { display: block; animation: slideDown 0.3s ease; }
     @keyframes slideDown { from { opacity: 0; transform: translateY(-10px);} to { opacity: 1; transform: translateY(0);}}
-    #progressContainer {margin:2.5rem auto 0 auto;width:100%;max-width:720px;background:#ecf0f1;
-      border-radius:12px;height:36px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.2);
-      border:2px solid #d1d5db;}
-    #progressBar {height:100%;width:0;background:linear-gradient(90deg,#3498db 0%,#2980b9 50%,#1a5276 100%);
-      border-radius:12px;box-shadow:inset 0 -2px 8px rgba(0,0,0,0.1);transition:width 0.8s ease;animation:shimmer 2s infinite;}
-    @keyframes shimmer {0%,100%{opacity:1;}50%{opacity:0.85;}}
     #finished {margin-top:3rem;font-size:2rem;color:#86efac;text-shadow:0 2px 8px rgba(0,0,0,0.2);
       display:none;font-weight:800;text-align:center;}
     @media (max-width:600px){
@@ -156,6 +165,8 @@
       #clearAllBtn { padding: 0.7rem 1.5rem; font-size: 0.95rem; }
       #datetimeContainer { font-size: 1rem; padding: 0.6rem; }
       .subject-progress-container { height: 18px; }
+      .progress-label { font-size: 1rem; }
+      #preparationContainer, #boardContainer { height: 32px; margin: 2rem auto 0 auto; }
     }
   </style>
 </head>
@@ -168,16 +179,19 @@
     <span id="currentDateTime">06-11-2025 23:00</span>
   </div>
   <div id="examList"></div>
+  <div class="progress-label">Subject Preparation</div>
+  <div id="preparationContainer"><div id="preparationBar"></div></div>
   <div id="clearContainer">
     <button id="clearAllBtn">Clear All Progress</button>
   </div>
-  <div id="progressContainer"><div id="progressBar"></div></div>
+  <div class="progress-label">Board Exam Progress</div>
+  <div id="boardContainer"><div id="boardProgressBar"></div></div>
   <div id="finished">All exams completed! Well done, Champion!</div>
 <script>
 // Nested structure: subjects have sections, each with name and chapters array
 const exams = [
   {
-    subject: "Mathematics [041]", date: "2026-02-17",
+    subject: "Mathematics [041]", date: "2026-02-17", weight: 1,
     sections: [
       { name: "Chapters", chapters: [
         "Real Numbers","Polynomials","Pair Of Linear Equations In Two Variables",
@@ -189,7 +203,7 @@ const exams = [
     ]
   },
   {
-    subject: "English [184]", date: "2026-02-21",
+    subject: "English [184]", date: "2026-02-21", weight: 1,
     sections: [
       { name: "First Flight (Prose)", chapters: [
         "A Letter to God","Nelson Mandela: Long Walk to Freedom",
@@ -213,7 +227,7 @@ const exams = [
     ]
   },
   {
-    subject: "Science [086]", date: "2026-02-25",
+    subject: "Science [086]", date: "2026-02-25", weight: 1,
     sections: [
       { name: "Chemistry", chapters: [
         "Chemical Reactions and Equations", "Acids, Bases, and Salts", "Metals and Non-metals",
@@ -230,7 +244,7 @@ const exams = [
     ]
   },
   {
-    subject: "Artificial Intelligence [417]", date: "2026-02-27",
+    subject: "Artificial Intelligence [417]", date: "2026-02-27", weight: 0.5,
     sections: [
       { name: "Units", chapters: [
         "Employability Skills","AI Project Cycle","AI Domains","Ethics in AI",
@@ -239,7 +253,7 @@ const exams = [
     ]
   },
   {
-    subject: "Sanskrit [119]", date: "2026-02-28",
+    subject: "Sanskrit [119]", date: "2026-02-28", weight: 1,
     sections: [
       { name: "साहित्यम्: मणिका (Literature)", chapters: [
         "Chapter 1","Chapter 2","Chapter 3","Chapter 4","Chapter 5",
@@ -254,7 +268,7 @@ const exams = [
     ]
   },
   {
-    subject: "Social Science [087]", date: "2026-03-07",
+    subject: "Social Science [087]", date: "2026-03-07", weight: 1,
     sections: [
       { name: "History", chapters: [
         "The Rise of Nationalism in Europe","Nationalism in India","The Making of a Global World",
@@ -324,6 +338,18 @@ function getSubjectProgress(exam) {
   return { total, done, percentage };
 }
 
+function getOverallPreparationProgress() {
+  let weightedDone = 0;
+  let weightedTotal = 0;
+  exams.forEach(exam => {
+    const prog = getSubjectProgress(exam);
+    weightedDone += prog.done * exam.weight;
+    weightedTotal += prog.total * exam.weight;
+  });
+  const percentage = weightedTotal > 0 ? (weightedDone / weightedTotal * 100) : 0;
+  return percentage;
+}
+
 function renderSections(subject, sections) {
   let html = '';
   sections.forEach((section, secIdx) => {
@@ -367,7 +393,8 @@ function updateDateTime() {
 }
 
 const container = document.getElementById("examList");
-const progressBar = document.getElementById("progressBar");
+const preparationBar = document.getElementById("preparationBar");
+const boardProgressBar = document.getElementById("boardProgressBar");
 const finishedText = document.getElementById("finished");
 const clearBtn = document.getElementById("clearAllBtn");
 clearBtn.addEventListener("click", clearAllTicks);
@@ -412,7 +439,7 @@ function updateCountdown() {
     const messageP = document.createElement("div");
     messageP.className = "message";
     if (subjectComplete) {
-      messageP.textContent = "Well done!";
+      messageP.textContent = "All the best!";
     } else if (now >= dayBefore && now < start) {
       const subjectName = exam.subject.split(" ")[0];
       messageP.textContent = `All the best for ${subjectName}!`;
@@ -464,7 +491,7 @@ function updateCountdown() {
     portionDiv.className = "portions";
     portionDiv.innerHTML = `<b>Chapters/Topics:</b>` + renderSections(exam.subject, exam.sections);
 
-    // Checkbox logic: save on change, update section visuals, progress bar, and subject completion
+    // Checkbox logic: save on change, update section visuals, progress bar, subject completion, and overall preparation
     setTimeout(() => {
       function attachListeners(examDiv, exam) {
         exam.sections.forEach((section, secIdx) => {
@@ -478,6 +505,9 @@ function updateCountdown() {
               const newProg = getSubjectProgress(exam);
               const bar = examDiv.querySelector(`#subject-progress-bar-${subjectSlug}`);
               if (bar) bar.style.width = `${newProg.percentage}%`;
+              // Update overall preparation bar
+              const overallPercentage = getOverallPreparationProgress();
+              preparationBar.style.width = `${overallPercentage}%`;
               // Update completed class and badge
               const isNowComplete = newProg.percentage === 100;
               if (isNowComplete) {
@@ -493,7 +523,7 @@ function updateCountdown() {
                   badge.style.marginTop = "0.5rem";
                   examDiv.insertBefore(badge, examDiv.firstChild.nextSibling);
                 }
-                examDiv.querySelector(".message").textContent = "Well done!";
+                examDiv.querySelector(".message").textContent = "All the best!";
               } else {
                 examDiv.classList.remove("completed");
                 const badge = examDiv.querySelector(".complete-badge");
@@ -513,7 +543,8 @@ function updateCountdown() {
     div.appendChild(portionDiv);
     container.appendChild(div);
   });
-  progressBar.style.width = `${completed/exams.length*100}%`;
+  boardProgressBar.style.width = `${completed/exams.length*100}%`;
+  preparationBar.style.width = `${getOverallPreparationProgress()}%`;
   finishedText.style.display = (completed === exams.length) ? "block" : "none";
 }
 
