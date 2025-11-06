@@ -91,6 +91,18 @@
     .subject.completed .countdown { color: #d4edda; }
     .message { font-size: 1.15rem;margin-top: 0.6rem;color: #86efac;font-weight: 700;}
     .subject.completed .message { color: #d4edda; }
+    .subject-progress-container {
+      margin: 1rem 0; width: 100%; background: #ecf0f1;
+      border-radius: 6px; height: 20px; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      border: 1px solid #d1d5db;
+    }
+    .subject-progress-bar {
+      height: 100%; width: 0; background: linear-gradient(90deg, #3498db 0%, #2980b9 50%, #1a5276 100%);
+      border-radius: 6px; box-shadow: inset 0 -1px 4px rgba(0,0,0,0.1); transition: width 0.5s ease;
+    }
+    .subject.completed .subject-progress-bar {
+      background: linear-gradient(90deg, #27ae60 0%, #219a52 50%, #1e7e34 100%);
+    }
     .toggle-btn {
       background: #ffffff; color: #1e40af; border: none; padding: 0.6rem 1.2rem;
       border-radius: 6px; font-size: 0.95rem; font-weight: 600; cursor: pointer;
@@ -143,6 +155,7 @@
       .section-header { font-size: 0.95rem; }
       #clearAllBtn { padding: 0.7rem 1.5rem; font-size: 0.95rem; }
       #datetimeContainer { font-size: 1rem; padding: 0.6rem; }
+      .subject-progress-container { height: 18px; }
     }
   </style>
 </head>
@@ -297,6 +310,20 @@ function isSubjectComplete(exam) {
   return exam.sections.every((section, secIdx) => isSectionComplete(exam.subject, secIdx, section.chapters));
 }
 
+function getSubjectProgress(exam) {
+  let total = 0;
+  let done = 0;
+  exam.sections.forEach((section, secIdx) => {
+    section.chapters.forEach((_, chIdx) => {
+      total++;
+      const key = getStorageKey(exam.subject, secIdx, chIdx);
+      if (localStorage.getItem(key) === "1") done++;
+    });
+  });
+  const percentage = total > 0 ? (done / total * 100) : 0;
+  return { total, done, percentage };
+}
+
 function renderSections(subject, sections) {
   let html = '';
   sections.forEach((section, secIdx) => {
@@ -398,6 +425,19 @@ function updateCountdown() {
     div.appendChild(countdownP);
     div.appendChild(messageP);
 
+    // Subject progress bar
+    const subjectSlug = exam.subject.replace(/[^a-zA-Z0-9]/g, "_");
+    const subjectProgressContainer = document.createElement("div");
+    subjectProgressContainer.id = `subject-progress-${subjectSlug}`;
+    subjectProgressContainer.className = "subject-progress-container";
+    const subjectProgressBar = document.createElement("div");
+    subjectProgressBar.id = `subject-progress-bar-${subjectSlug}`;
+    subjectProgressBar.className = "subject-progress-bar";
+    subjectProgressContainer.appendChild(subjectProgressBar);
+    div.appendChild(subjectProgressContainer);
+    const prog = getSubjectProgress(exam);
+    subjectProgressBar.style.width = `${prog.percentage}%`;
+
     // Toggle button
     const toggleBtn = document.createElement("button");
     toggleBtn.className = "toggle-btn";
@@ -424,7 +464,7 @@ function updateCountdown() {
     portionDiv.className = "portions";
     portionDiv.innerHTML = `<b>Chapters/Topics:</b>` + renderSections(exam.subject, exam.sections);
 
-    // Checkbox logic: save on change, update section visuals and subject completion
+    // Checkbox logic: save on change, update section visuals, progress bar, and subject completion
     setTimeout(() => {
       function attachListeners(examDiv, exam) {
         exam.sections.forEach((section, secIdx) => {
@@ -434,14 +474,35 @@ function updateCountdown() {
             if (!box) return;
             box.addEventListener("change", function() {
               localStorage.setItem(key, box.checked ? "1" : "");
+              const subjectSlug = exam.subject.replace(/[^a-zA-Z0-9]/g, "_");
+              const newProg = getSubjectProgress(exam);
+              const bar = examDiv.querySelector(`#subject-progress-bar-${subjectSlug}`);
+              if (bar) bar.style.width = `${newProg.percentage}%`;
+              // Update completed class and badge
+              const isNowComplete = newProg.percentage === 100;
+              if (isNowComplete) {
+                examDiv.classList.add("completed");
+                let badge = examDiv.querySelector(".complete-badge");
+                if (!badge) {
+                  badge = document.createElement("div");
+                  badge.className = "complete-badge";
+                  badge.textContent = "Completed";
+                  badge.style.color = "#d4edda";
+                  badge.style.fontSize = "1.2rem";
+                  badge.style.fontWeight = "700";
+                  badge.style.marginTop = "0.5rem";
+                  examDiv.insertBefore(badge, examDiv.firstChild.nextSibling);
+                }
+                examDiv.querySelector(".message").textContent = "Well done!";
+              } else {
+                examDiv.classList.remove("completed");
+                const badge = examDiv.querySelector(".complete-badge");
+                if (badge) badge.remove();
+              }
               // Re-render the portions
               portionDiv.innerHTML = `<b>Chapters/Topics:</b>` + renderSections(exam.subject, exam.sections);
               // Re-attach listeners
               setTimeout(() => attachListeners(examDiv, exam), 10);
-              // Check if subject is now complete and update UI
-              if (isSubjectComplete(exam)) {
-                updateCountdown(); // Full refresh to apply completed class
-              }
             });
           });
         });
