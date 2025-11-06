@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Class 10 Board Exam Countdown</title>
+  <title>Class 10 Board Exams 2026</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
 
@@ -29,7 +29,7 @@
       transition: transform 0.2s, box-shadow 0.2s;
       overflow: hidden;
     }
-    .subject.next {
+    .subject.highlight {
       border: 2px solid #07f9b0;
       box-shadow: 0 0 18px #07f9b088;
       transform: scale(1.04);
@@ -120,59 +120,55 @@
   <script>
     const exams = [
       { subject: "Mathematics (041)", code:"041", date: "2026-02-17", portions: `
-        <b>Units:</b>
+        <b>Portions:</b>
         <ul>
-        <li>Real Numbers, Polynomials</li>
-        <li>Pair Of Linear Equations, Quatratic Equations</li>
-        <li>Coordinate Geometry, Triangles</li>
-        <li>Circles, Areas related to circles</li>
-        <li>Intro to Trigonometry, Applications of Trigonometry</li>
-        <li>Arithmetic Progression, Surface areas & volumes</li>
-        <li>Statistics, Probability</li>
+          <li>Real Numbers, Polynomials</li>
+          <li>Pair Of Linear Equations, Quatratic Equations</li>
+          <li>Coordinate Geometry, Triangles</li>
+          <li>Circles, Areas related to circles</li>
+          <li>Intro to Trigonometry, Applications of Trigonometry</li>
+          <li>Arithmetic Progression, Surface areas & volumes</li>
+          <li>Statistics, Probability</li>
         </ul>
       `},
       { subject: "English (184)", code:"184", date: "2026-02-21", portions: `
         <b>Sections:</b>
         <ul>
-        <li>Reading: Unseen passages for comprehension</li>
-        <li>Writing & Grammar: Letter, analytical paragraph, story, grammar topics (tenses, editing, omission, etc.)</li>
-        <li>Literature (First Flight): All textbook chapters, poems, extracts</li>
-        <li>Supplementary (Footprints without Feet): All stories, extracts, one-mark and long answers</li>
+          <li>Reading: Unseen passages</li>
+          <li>Writing & Grammar: Letter, Paragraph, Grammar Topics</li>
+          <li>Literature: Textbook chapters, poems, extracts</li>
+          <li>Supplementary: Stories, extracts, long answers</li>
         </ul>
       `},
       { subject: "Science (086)", code:"086", date: "2026-02-25", portions: `
-        <b>Units:</b>
+        <b>Portions:</b>
         <ul>
-        <li>Chemical Substances: Chemical Reactions, Acids & Bases, Metals & Non-metals, Carbon and its Compounds</li>
-        <li>World of Living: Life Processes, Control & Coordination, Reproduction, Heredity, Environment</li>
-        <li>Natural Phenomena: Light (Reflection & Refraction), Human Eye, Electricity, Magnetic Effect</li>
+          <li>Chemicstry: Chemical Reactions, Acids & Bases, Metals & Non-metals, Carbon and its Compounds</li>
+          <li>Biology: Life Processes, Control & Coordination, Reproduction, Heredity, Environment</li>
+          <li>Physics: Light (Reflection & Refraction), Human Eye, Electricity, Magnetic Effect</li>
         </ul>
       `},
       { subject: "Artificial Intelligence (417)", code:"417", date: "2026-02-27", portions: `
         <b>Units:</b>
         <ul>
-        <li>Employability Skills (Communication, Self-management, ICT, Green, and Entrepreneurial Skills)</li>
-        <li>AI Project Cycle, Domains of AI (Data, Vision, NLP)</li>
-        <li>Ethical Frameworks in AI, Modeling in AI, Evaluating Models</li>
-        <li>Statistical Data, Computer Vision, NLP concepts, Advanced Python for AI</li>
-        <li>Practical Projects (Data analysis, NLP, Vision)</li>
+          <li>Employability Skills, AI Project Cycle, AI Domains</li>
+          <li>Ethics in AI, Modeling, Data Analysis</li>
+          <li>Computer Vision, Natural Language Processing, Python</li>
         </ul>
       `},
       { subject: "Sanskrit (119)", code:"119", date: "2026-02-28", portions: `
         <b>पुस्तकें एवं विषय:</b>
         <ul>
-        <li>मणिका: सभी पाठ, रचनाएँ, अपठित गद्यांश, पद्यांश</li>
-        <li>व्याकरण: संधि, समास, उपसर्ग, प्रत्यय, काल, वचन, लिंग, शब्द-रूप, धातु-रूप</li>
-        <li>संवाद लेखन, पत्र लेखन, अनुच्छेद लेखन आदि</li>
+          <li>मणिका: सभी पाठ</li>
+          <li>व्याकरण: संधि, समास, उपसर्ग, प्रत्यय आदि</li>
+          <li>संवाद, पत्र, अनुच्छेद लेखन</li>
         </ul>
       `},
       { subject: "Social Science (087)", code:"087", date: "2026-03-07", portions: `
         <b>Units:</b>
         <ul>
-        <li>History: The Rise of Nationalism in Europe, Nationalism in India, Making of a Global World, Print Culture</li>
-        <li>Geography: Resources and Development, Forest & Wildlife, Water, Agriculture, Minerals, Manufacturing, Lifelines</li>
-        <li>Political Science: Power sharing, Federalism, Gender, Religion & Caste, Political Parties, Outcomes of Democracy</li>
-        <li>Economics: Development, Sectors, Money & Credit, Globalisation</li>
+          <li>History, Geography, Political Science</li>
+          <li>Economics, Practical Components</li>
         </ul>
       `},
     ];
@@ -187,7 +183,6 @@
       let dd = d.getDate();
       let mm = months[d.getMonth()];
       let yy = d.getFullYear();
-      // Suffixes
       let suf = 'th';
       if (dd === 1 || dd === 21 || dd === 31) suf = 'st';
       else if (dd === 2 || dd === 22) suf = 'nd';
@@ -210,21 +205,12 @@
       container.innerHTML = '';
       const now = new Date();
       let completed = 0;
-      let nextExamIdx = -1;
 
-      // Remove exams that have ended
       const active = exams.filter(exam => {
         const end = new Date(`${exam.date}T13:30:00`);
         return now <= end;
       });
       completed = exams.length - active.length;
-
-      // Find next exam that is yet to start; else first ongoing
-      for (let i=0; i<active.length; i++) {
-        const start = new Date(`${active[i].date}T10:30:00`);
-        if (now < start) { nextExamIdx = i; break; }
-      }
-      if (nextExamIdx === -1 && active.length > 0) nextExamIdx = 0;
 
       active.forEach((exam, i) => {
         const start = new Date(`${exam.date}T10:30:00`);
@@ -233,8 +219,11 @@
 
         const div = document.createElement('div');
         div.classList.add('subject');
-        if (i === nextExamIdx) div.classList.add('next');
-        if (div.classList.contains('open')) div.classList.add('open');
+
+        // Highlight ONLY 1 day before exam
+        if (now >= dayBefore && now < start) {
+          div.classList.add('highlight');
+        }
 
         const title = document.createElement('h2');
         title.innerHTML = `${exam.subject}`;
@@ -264,12 +253,12 @@
         div.appendChild(countdownP);
         div.appendChild(messageP);
 
-        // Portions toggle
         const portionDiv = document.createElement('div');
         portionDiv.className = 'portions';
         portionDiv.innerHTML = exam.portions;
         div.appendChild(portionDiv);
 
+        // Always allow clicking to open/close portions, even outside highlight window
         div.addEventListener('click', function(e){
           e.stopPropagation();
           document.querySelectorAll('.subject').forEach(subj=>{
@@ -281,11 +270,11 @@
         container.appendChild(div);
       });
 
-      // Progress Bar
       let percent = (completed / exams.length) * 100;
       progressBar.style.width = percent + '%';
       finishedText.style.display = (completed === exams.length) ? 'block' : 'none';
     }
+
     updateCountdown();
     setInterval(updateCountdown, 60000);
   </script>
