@@ -6,11 +6,6 @@
   <title>Class X Boards 2026</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Roboto+Mono&display=swap');
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
     body {
       background: linear-gradient(135deg, #1e3a5f 0%, #162d47 50%, #0f1f35 100%);
       min-height: 100vh;
@@ -40,138 +35,68 @@
       transition: all 0.3s;
       font-weight: 600;
     }
-    .subtitle a:hover {
-      color: #ecf0f1;
-      border-bottom-color: #ecf0f1;
-    }
+    .subtitle a:hover { color: #ecf0f1; border-bottom-color: #ecf0f1; }
     #examList {
-      width: 100%;
-      max-width: 720px;
-      margin: 0 auto 2rem auto;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
+      width: 100%; max-width: 720px; margin: 0 auto 2rem auto;
+      display: grid; grid-template-columns: 1fr; gap: 1.5rem;
     }
     .subject {
-      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-      border-radius: 12px;
-      padding: 1.8rem;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.35), 0 0 20px rgba(59, 130, 246, 0.4);
-      cursor: pointer;
-      transition: all 0.3s;
-      border: 2px solid #1e40af;
-      text-align: center;
+      background: linear-gradient(135deg,#3b82f6 0%,#2563eb 100%);
+      border-radius: 12px; padding: 1.8rem; box-shadow: 0 8px 30px rgba(0,0,0,0.35),
+      0 0 20px rgba(59,130,246,0.4); cursor: pointer; transition: all 0.3s;
+      border: 2px solid #1e40af; text-align: center;
     }
     .subject:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 15px 40px rgba(0,0,0,0.4), 0 0 30px rgba(59, 130, 246, 0.6);
-      border-color: #1e3a8a;
-      background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+      transform: translateY(-6px); box-shadow: 0 15px 40px rgba(0,0,0,0.4),
+      0 0 30px rgba(59,130,246,0.6); border-color: #1e3a8a;
+      background: linear-gradient(135deg,#60a5fa 0%,#3b82f6 100%);
     }
     .subject.highlight {
-      border: 3px solid #e74c3c;
-      box-shadow: 0 0 30px rgba(231,76,60,0.5), 0 8px 30px rgba(0,0,0,0.35);
-      background: linear-gradient(135deg, #ffa07a 0%, #ff8c69 100%);
+      border: 3px solid #e74c3c; box-shadow: 0 0 30px rgba(231,76,60,0.5),
+      0 8px 30px rgba(0,0,0,0.35); background: linear-gradient(135deg,#ffa07a 0%,#ff8c69 100%);
     }
     .subject h2 {
-      margin: 0 0 0.8rem 0;
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: #ffffff;
+      margin: 0 0 0.8rem 0; font-size: 1.6rem; font-weight: 700; color: #ffffff;
     }
-    .exam-date {
-      font-size: 1.1rem;
-      color: #e0e7ff;
-      margin-bottom: 0.6rem;
-      font-weight: 600;
-    }
-    .countdown {
-      font-size: 1.65rem;
-      color: #fef08a;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-    }
-    .message {
-      font-size: 1.15rem;
-      margin-top: 0.6rem;
-      color: #86efac;
-      font-weight: 700;
-    }
+    .exam-date { font-size: 1.1rem;color: #e0e7ff; margin-bottom: 0.6rem;font-weight: 600;}
+    .countdown { font-size: 1.65rem; color: #fef08a; font-weight: 700; margin-bottom: 0.5rem;}
+    .message { font-size: 1.15rem;margin-top: 0.6rem;color: #86efac;font-weight: 700;}
     .portions {
-      margin-top: 1.2rem;
-      padding: 1.2rem;
-      background: #f0f4f8;
-      border-left: 5px solid #3b82f6;
-      color: #1e3a5f;
-      font-size: 0.95rem;
-      border-radius: 8px;
-      max-height: 400px;
-      overflow-y: auto;
-      display: none;
-      text-align: left;
-      line-height: 1.7;
+      margin-top: 1.2rem; padding: 1.2rem; background: #f0f4f8; border-left: 5px solid #3b82f6;
+      color: #1e3a5f; font-size: 0.95rem; border-radius: 8px; max-height: 400px;
+      overflow-y: auto; display: none; text-align: left; line-height: 1.7;
     }
-    .portions ul {
+    .checkbox-list { list-style: none; padding-left: 0; margin: 8px 0; }
+    .checkbox-list li {
       margin: 10px 0;
-      padding-left: 22px;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
-    .portions li {
-      margin: 6px 0;
-      color: #2c3e50;
+    .checkbox-list input[type="checkbox"] {
+      accent-color: #2563eb;
+      width: 20px; height: 20px; margin-right: 10px;
     }
-    .portions b {
-      color: #1e40af;
-      font-weight: 700;
+    .checkbox-list input[type="checkbox"]:checked + label {
+      text-decoration: line-through;
+      color: #b1b7be;
+      opacity: 0.7;
     }
-    .subject.open .portions {
-      display: block;
-      animation: slideDown 0.3s ease;
-    }
-    @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-10px);}
-      to { opacity: 1; transform: translateY(0);}
-    }
-    #progressContainer {
-      margin: 2.5rem auto 0 auto;
-      width: 100%;
-      max-width: 720px;
-      background: #ecf0f1;
-      border-radius: 12px;
-      height: 36px;
-      overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      border: 2px solid #d1d5db;
-    }
-    #progressBar {
-      height: 100%;
-      width: 0;
-      background: linear-gradient(90deg, #3498db 0%, #2980b9 50%, #1a5276 100%);
-      border-radius: 12px;
-      box-shadow: inset 0 -2px 8px rgba(0,0,0,0.1);
-      transition: width 0.8s ease;
-      animation: shimmer 2s infinite;
-    }
-    @keyframes shimmer {
-      0%,100% {opacity:1;}
-      50% {opacity:0.85;}
-    }
-    #finished {
-      margin-top: 3rem;
-      font-size: 2rem;
-      color: #86efac;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.2);
-      display: none;
-      font-weight: 800;
-      text-align: center;
-    }
-    @media (max-width: 600px) {
-      h1 {font-size: 1.8rem;}
-      .subtitle {font-size: 0.95rem;}
-      #examList {gap: 1rem;}
-      .subject {padding: 1.3rem;}
-      .subject h2 {font-size: 1.3rem;}
-      .countdown {font-size: 1.3rem;}
-      .portions {font-size: 0.85rem; max-height: 250px;}
+    .portions b { color: #1e40af; font-weight: 700;}
+    .subject.open .portions { display: block; animation: slideDown 0.3s ease;}
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px);} to { opacity: 1; transform: translateY(0);}}
+    #progressContainer {margin:2.5rem auto 0 auto;width:100%;max-width:720px;background:#ecf0f1;
+      border-radius:12px;height:36px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.2);
+      border:2px solid #d1d5db;}
+    #progressBar {height:100%;width:0;background:linear-gradient(90deg,#3498db 0%,#2980b9 50%,#1a5276 100%);
+      border-radius:12px;box-shadow:inset 0 -2px 8px rgba(0,0,0,0.1);transition:width 0.8s ease;animation:shimmer 2s infinite;}
+    @keyframes shimmer {0%,100%{opacity:1;}50%{opacity:0.85;}}
+    #finished {margin-top:3rem;font-size:2rem;color:#86efac;text-shadow:0 2px 8px rgba(0,0,0,0.2);
+      display:none;font-weight:800;text-align:center;}
+    @media (max-width:600px){
+      h1{font-size:1.8rem;}.subtitle{font-size:0.95rem;}#examList{gap:1rem;}.subject{padding:1.3rem;}
+      .subject h2{font-size:1.3rem;}.countdown{font-size:1.3rem;}.portions{font-size:0.85rem;max-height:250px;}
     }
   </style>
 </head>
@@ -183,265 +108,186 @@
   <div id="examList"></div>
   <div id="progressContainer"><div id="progressBar"></div></div>
   <div id="finished">All exams completed! Well done, Champion!</div>
-  <script>
-    const exams = [
-      {
-        subject: "Mathematics [041]",
-        date: "2026-02-17",
-        portions: `<b>Chapters:</b><ul>
-          <li>Real Numbers</li>
-          <li>Polynomials</li>
-          <li>Pair Of Linear Equations In Two Variables</li>
-          <li>Quadratic Equations</li>
-          <li>Arithmetic Progressions</li>
-          <li>Triangles</li>
-          <li>Coordinate Geometry</li>
-          <li>Introduction To Trigonometry</li>
-          <li>Applications Of Trigonometry</li>
-          <li>Circles</li>
-          <li>Areas Related To Circles</li>
-          <li>Surface Areas And Volumes</li>
-          <li>Statistics and Probability</li>
-        </ul>`
-      },
-      {
-        subject: "English [184]",
-        date: "2026-02-21",
-        portions: `<b>First Flight (Prose):</b>
-          <ul>
-            <li>A Letter to God</li>
-            <li>Nelson Mandela: Long Walk to Freedom</li>
-            <li>Two Stories about Flying (His First Flight & Black Aeroplane)</li>
-            <li>From the Diary of Anne Frank</li>
-            <li>Glimpses of India (A Baker from Goa, Coorg, Tea from Assam)</li>
-            <li>Mijbil the Otter</li>
-            <li>Madam Rides the Bus</li>
-            <li>The Sermon at Benares</li>
-            <li>The Proposal (Play)</li>
-          </ul>
-          <b>First Flight (Poetry):</b>
-          <ul>
-            <li>Dust of Snow</li>
-            <li>Fire and Ice</li>
-            <li>A Tiger in the Zoo</li>
-            <li>How to Tell Wild Animals</li>
-            <li>The Ball Poem</li>
-            <li>Amanda!</li>
-            <li>The Trees</li>
-            <li>Fog</li>
-            <li>The Tale of Custard the Dragon</li>
-            <li>For Anne Gregory</li>
-          </ul>
-          <b>Footprints without Feet (Supplementary Reader):</b>
-          <ul>
-            <li>A Triumph of Surgery</li>
-            <li>The Thief's Story</li>
-            <li>The Midnight Visitor</li>
-            <li>A Question of Trust</li>
-            <li>Footprints without Feet</li>
-            <li>The Making of a Scientist</li>
-            <li>The Necklace</li>
-            <li>Bholi</li>
-            <li>The Book that Saved the Earth</li>
-          </ul>`
-      },
-      {
-        subject: "Science [086]",
-        date: "2026-02-25",
-        portions: `<b>Chapters:</b><ul>
-          <li>Chemical Reactions and Equations</li>
-          <li>Acids, Bases, and Salts</li>
-          <li>Metals and Non-metals</li>
-          <li>Carbon and its Compounds</li>
-          <li>Life Processes</li>
-          <li>Control and Coordination</li>
-          <li>How do Organisms Reproduce</li>
-          <li>Heredity</li>
-          <li>Light — Reflection and Refraction</li>
-          <li>The Human Eye and the Colourful World</li>
-          <li>Electricity</li>
-          <li>Magnetic Effects of Electric Current</li>
-          <li>Our Environment</li>
-        </ul>`
-      },
-      {
-        subject: "Artificial Intelligence [417]",
-        date: "2026-02-27",
-        portions: `<b>Units:</b><ul>
-          <li>Employability Skills</li>
-          <li>AI Project Cycle</li>
-          <li>AI Domains</li>
-          <li>Ethics in AI</li>
-          <li>Modeling & Data Analysis</li>
-          <li>Computer Vision</li>
-          <li>Natural Language Processing</li>
-          <li>Python for AI</li>
-        </ul>`
-      },
-      {
-        subject: "Sanskrit [119]",
-        date: "2026-02-28",
-        portions: `<b>साहित्यम्: मणिका (Literature: Manika):</b>
-          <ul>
-            <li>All Chapters in Textbook</li>
-          </ul>
-          <b>व्याकरण (Grammar):</b>
-          <ul>
-            <li>संधि</li>
-            <li>समास</li>
-            <li>प्रत्यय</li>
-            <li>वाच्यप्रकरण</li>
-            <li>शब्दरूपाणि</li>
-            <li>धातुरूपाणि</li>
-            <li>अव्ययपदानि</li>
-            <li>अशुद्धि संशोधन</li>
-          </ul>
-          <b>रचनात्मक कार्य (Composition):</b>
-          <ul>
-            <li>पत्र लेखन (Letter Writing)</li>
-            <li>चित्रवर्णन (Picture Description)</li>
-            <li>संवाद लेखन (Dialogue Writing)</li>
-            <li>अनुवाद (Translation)</li>
-          </ul>`
-      },
-      {
-        subject: "Social Science [087]",
-        date: "2026-03-07",
-        portions: `<b>History:</b>
-          <ul>
-            <li>The Rise of Nationalism in Europe</li>
-            <li>Nationalism in India</li>
-            <li>The Making of a Global World</li>
-            <li>The Age of Industrialisation</li>
-            <li>Print Culture and the Modern World</li>
-          </ul>
-          <b>Geography:</b>
-          <ul>
-            <li>Resources and Development</li>
-            <li>Forest and Wildlife Resources</li>
-            <li>Water Resources</li>
-            <li>Agriculture</li>
-            <li>Minerals and Energy Resources</li>
-            <li>Manufacturing Industries</li>
-            <li>Lifelines of National Economy</li>
-          </ul>
-          <b>Political Science:</b>
-          <ul>
-            <li>Power Sharing</li>
-            <li>Federalism</li>
-            <li>Gender, Religion and Caste</li>
-            <li>Political Parties</li>
-            <li>Outcomes of Democracy</li>
-          </ul>
-          <b>Economics:</b>
-          <ul>
-            <li>Development</li>
-            <li>Sectors of the Indian Economy</li>
-            <li>Money and Credit</li>
-            <li>Globalisation and the Indian Economy</li>
-            <li>Consumer Rights</li>
-          </ul>`
-      }
-    ];
+<script>
+const exams = [
+  {
+    subject: "Mathematics [041]", date: "2026-02-17",
+    chapters: [
+      "Real Numbers","Polynomials","Pair Of Linear Equations In Two Variables",
+      "Quadratic Equations","Arithmetic Progressions","Triangles","Coordinate Geometry",
+      "Introduction To Trigonometry","Applications Of Trigonometry",
+      "Circles","Constructions","Areas Related To Circles","Surface Areas And Volumes",
+      "Statistics and Probability"
+    ]
+  },
+  {
+    subject: "English [184]", date: "2026-02-21",
+    chapters: [
+      "First Flight (Prose): A Letter to God","First Flight (Prose): Nelson Mandela: Long Walk to Freedom",
+      "First Flight (Prose): Two Stories about Flying (His First Flight & Black Aeroplane)",
+      "First Flight (Prose): From the Diary of Anne Frank","First Flight (Prose): The Hundred Dresses – I",
+      "First Flight (Prose): The Hundred Dresses – II", "First Flight (Prose): Glimpses of India (A Baker from Goa, Coorg, Tea from Assam)",
+      "First Flight (Prose): Mijbil the Otter","First Flight (Prose): Madam Rides the Bus",
+      "First Flight (Prose): The Sermon at Benares","First Flight (Prose): The Proposal",
+      "First Flight (Poetry): Dust of Snow","First Flight (Poetry): Fire and Ice",
+      "First Flight (Poetry): A Tiger in the Zoo","First Flight (Poetry): How to Tell Wild Animals",
+      "First Flight (Poetry): The Ball Poem","First Flight (Poetry): Amanda!","First Flight (Poetry): The Trees",
+      "First Flight (Poetry): Fog","First Flight (Poetry): The Tale of Custard the Dragon","First Flight (Poetry): For Anne Gregory",
+      "Footprints without Feet: A Triumph of Surgery","Footprints without Feet: The Thief's Story","Footprints without Feet: The Midnight Visitor",
+      "Footprints without Feet: A Question of Trust","Footprints without Feet: Footprints without Feet",
+      "Footprints without Feet: The Making of a Scientist","Footprints without Feet: The Necklace",
+      "Footprints without Feet: The Hack Driver","Footprints without Feet: Bholi","Footprints without Feet: The Book that Saved the Earth"
+    ]
+  },
+  {
+    subject: "Science [086]", date: "2026-02-25",
+    chapters: [
+      "Chemical Reactions and Equations", "Acids, Bases, and Salts", "Metals and Non-metals",
+      "Carbon and its Compounds", "Periodic Classification of Elements","Life Processes",
+      "Control and Coordination","How do Organisms Reproduce","Heredity and Evolution",
+      "Light — Reflection and Refraction","The Human Eye and the Colourful World","Electricity",
+      "Magnetic Effects of Electric Current","Sources of Energy","Our Environment","Management of Natural Resources"
+    ]
+  },
+  {
+    subject: "Artificial Intelligence [417]", date: "2026-02-27",
+    chapters: [
+      "Employability Skills","AI Project Cycle","AI Domains","Ethics in AI",
+      "Modeling & Data Analysis","Computer Vision","Natural Language Processing","Python for AI"
+    ]
+  },
+  {
+    subject: "Sanskrit [119]", date: "2026-02-28",
+    chapters: [
+      "संवादः","सुभाषितानि","धर्मक्षेत्रे कुरुक्षेत्रे","मेघः अयम्","सौदामिनी",
+      "व्रजन्तु सुतराम् रम्याणि","अपेक्षा","हिमालयः","विशिष्ट: पथः","शिवा-संकल्प",
+      "संधि","समास","प्रत्यय","वाच्यप्रकरण","शब्दरूपाणि","धातुरूपाणि","अव्ययपदानि","अशुद्धि संशोधन",
+      "पत्र लेखन (Letter Writing)","चित्रवर्णन (Picture Description)","संवाद लेखन (Dialogue Writing)","अनुवाद (Translation)"
+    ]
+  },
+  {
+    subject: "Social Science [087]", date: "2026-03-07",
+    chapters: [
+      "History: The Rise of Nationalism in Europe","History: Nationalism in India","History: The Making of a Global World",
+      "History: The Age of Industrialisation","History: Print Culture and the Modern World",
+      "Geography: Resources and Development","Geography: Forest and Wildlife Resources","Geography: Water Resources",
+      "Geography: Agriculture","Geography: Minerals and Energy Resources","Geography: Manufacturing Industries",
+      "Geography: Lifelines of National Economy","Political Science: Power Sharing","Political Science: Federalism",
+      "Political Science: Gender, Religion and Caste","Political Science: Political Parties","Political Science: Outcomes of Democracy",
+      "Economics: Development","Economics: Sectors of the Indian Economy","Economics: Money and Credit",
+      "Economics: Globalisation and the Indian Economy","Economics: Consumer Rights"
+    ]
+  }
+];
+const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+function getDateStr(dateStr) {
+  const d = new Date(dateStr + "T10:30:00");
+  const day = d.getDate();
+  const month = months[d.getMonth()];
+  const year = d.getFullYear();
+  let suffix = "th";
+  if (day === 1 || day === 21 || day === 31) suffix = "st";
+  else if (day === 2 || day === 22) suffix = "nd";
+  else if (day === 3 || day === 23) suffix = "rd";
+  return `${day}${suffix} ${month} ${year}`;
+}
+function formatTimediff(diff) {
+  const days = Math.floor(diff/(1000*60*60*24));
+  const hours = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+  const minutes = Math.floor((diff%(1000*60*60))/(1000*60));
+  const seconds = Math.floor((diff%(1000*60))/1000);
+  return {days, hours, minutes, seconds};
+}
+function getStorageKey(subject, i) {
+  return `boards_ch_${subject.replace(/[^a-zA-Z0-9]/g,"_")}_${i}`;
+}
+function renderCheckboxes(subject, chapters) {
+  let html = `<ul class="checkbox-list">`;
+  chapters.forEach((ch,i) => {
+    const key = getStorageKey(subject,i);
+    const checked = localStorage.getItem(key)==="1" ? "checked" : "";
+    html += `<li>
+      <input type="checkbox" id="${key}" ${checked}>
+      <label for="${key}" style="cursor:pointer">${ch}</label>
+    </li>`;
+  });
+  html += `</ul>`;
+  return html;
+}
+const container = document.getElementById("examList");
+const progressBar = document.getElementById("progressBar");
+const finishedText = document.getElementById("finished");
+function updateCountdown() {
+  container.innerHTML = "";
+  const now = new Date();
+  let completed = 0;
+  const active = exams.filter(exam => {
+    const end = new Date(exam.date + "T13:30:00");
+    return now < end;
+  });
+  completed = exams.length - active.length;
+  active.forEach((exam) => {
+    const start = new Date(exam.date + "T10:30:00");
+    const end = new Date(exam.date + "T13:30:00");
+    const dayBefore = new Date(start.getTime() - 24*60*60*1000);
+    const div = document.createElement("div");
+    div.classList.add("subject");
+    if (now >= dayBefore && now < start) div.classList.add("highlight");
+    const title = document.createElement("h2");
+    title.textContent = exam.subject;
+    div.appendChild(title);
+    const dateDiv = document.createElement("div");
+    dateDiv.className = "exam-date";
+    dateDiv.textContent = getDateStr(exam.date);
+    div.appendChild(dateDiv);
+    const countdownP = document.createElement("div");
+    countdownP.className = "countdown";
+    const messageP = document.createElement("div");
+    messageP.className = "message";
+    if (now >= dayBefore && now < start) {
+      const subjectName = exam.subject.split(" ")[0];
+      messageP.textContent = `All the best for ${subjectName}!`;
+    } else if (now < start) {
+      const {days, hours, minutes, seconds} = formatTimediff(start - now);
+      countdownP.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s left`;
+    } else if (now >= start && now < end) {
+      countdownP.textContent = "Exam in progress...";
+    }
+    div.appendChild(countdownP);
+    div.appendChild(messageP);
 
-    const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-    
-    function getDateStr(dateStr) {
-      const d = new Date(dateStr + "T10:30:00");
-      const day = d.getDate();
-      const month = months[d.getMonth()];
-      const year = d.getFullYear();
-      
-      let suffix = "th";
-      if (day === 1 || day === 21 || day === 31) suffix = "st";
-      else if (day === 2 || day === 22) suffix = "nd";
-      else if (day === 3 || day === 23) suffix = "rd";
-      
-      return `${day}${suffix} ${month} ${year}`;
-    }
-    
-    function formatTimediff(diff) {
-      const days = Math.floor(diff/(1000*60*60*24));
-      const hours = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
-      const minutes = Math.floor((diff%(1000*60*60))/(1000*60));
-      return {days, hours, minutes};
-    }
-    
-    const container = document.getElementById("examList");
-    const progressBar = document.getElementById("progressBar");
-    const finishedText = document.getElementById("finished");
-    
-    function updateCountdown() {
-      container.innerHTML = "";
-      const now = new Date();
-      let completed = 0;
-      
-      const active = exams.filter(exam => {
-        const end = new Date(exam.date + "T13:30:00");
-        return now < end;
-      });
-      
-      completed = exams.length - active.length;
-      
-      active.forEach((exam) => {
-        const start = new Date(exam.date + "T10:30:00");
-        const end = new Date(exam.date + "T13:30:00");
-        const dayBefore = new Date(start.getTime() - 24*60*60*1000);
-        
-        const div = document.createElement("div");
-        div.classList.add("subject");
-        
-        if (now >= dayBefore && now < start) div.classList.add("highlight");
-        
-        const title = document.createElement("h2");
-        title.textContent = exam.subject;
-        div.appendChild(title);
-        
-        const dateDiv = document.createElement("div");
-        dateDiv.className = "exam-date";
-        dateDiv.textContent = getDateStr(exam.date);
-        div.appendChild(dateDiv);
-        
-        const countdownP = document.createElement("div");
-        countdownP.className = "countdown";
-        const messageP = document.createElement("div");
-        messageP.className = "message";
-        
-        if (now >= dayBefore && now < start) {
-          const subjectName = exam.subject.split(" ")[0];
-          messageP.textContent = `All the best for ${subjectName}!`;
-        } else if (now < start) {
-          const {days, hours, minutes} = formatTimediff(start - now);
-          countdownP.textContent = `${days}d ${hours}h ${minutes}m left`;
-        } else if (now >= start && now < end) {
-          countdownP.textContent = "Exam in progress...";
-        }
-        
-        div.appendChild(countdownP);
-        div.appendChild(messageP);
-        
-        const portionDiv = document.createElement("div");
-        portionDiv.className = "portions";
-        portionDiv.innerHTML = exam.portions;
-        div.appendChild(portionDiv);
-        
-        div.addEventListener("click", function(e){
-          e.stopPropagation();
-          document.querySelectorAll(".subject").forEach(subj => {
-            if(subj !== div) subj.classList.remove("open");
-          });
-          div.classList.toggle("open");
+    // Tickable list area
+    const portionDiv = document.createElement("div");
+    portionDiv.className = "portions";
+    portionDiv.innerHTML = `<b>Chapters/Topics:</b>` + renderCheckboxes(exam.subject,exam.chapters);
+
+    // Checkbox logic: save progress on checking
+    setTimeout(()=>{
+      exam.chapters.forEach((_ch,i)=>{
+        const key = getStorageKey(exam.subject,i);
+        const box = document.getElementById(key);
+        if (!box) return;
+        box.addEventListener("change",function(){
+          localStorage.setItem(key, box.checked ? "1" : "");
         });
-        
-        container.appendChild(div);
       });
-      
-      progressBar.style.width = `${completed/exams.length*100}%`;
-      finishedText.style.display = (completed === exams.length) ? "block" : "none";
-    }
-    
-    updateCountdown();
-    setInterval(updateCountdown, 60000);
-  </script>
+    },0);
+
+    div.appendChild(portionDiv);
+    div.addEventListener("click", function(e){
+      e.stopPropagation();
+      document.querySelectorAll(".subject").forEach(subj => {
+        if(subj !== div) subj.classList.remove("open");
+      });
+      div.classList.toggle("open");
+    });
+    container.appendChild(div);
+  });
+  progressBar.style.width = `${completed/exams.length*100}%`;
+  finishedText.style.display = (completed === exams.length) ? "block" : "none";
+}
+updateCountdown();
+setInterval(updateCountdown, 1000); // every second, so if you reload/return, UI is always up to date
+</script>
 </body>
 </html>
